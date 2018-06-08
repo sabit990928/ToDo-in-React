@@ -18,6 +18,13 @@ class App extends Component {
     this.setState({ task: value });
   };
 
+  didIt = (index) => {
+    const array = [...this.state.list];
+    array.splice(index, 1);
+    this.setState({ list: array });
+    console.log(this.state.task, index);
+  }
+
   // delete = (id) => {
   //   this.setState(prevState => ({
   //     list: prevState.list.filter(el => el !== id),
@@ -49,7 +56,7 @@ class App extends Component {
           <ol>
             {
               this.state.list.length > 0 &&
-              this.state.list.map(task => <li key={task.toString()} onClick={this.didIt}>{task}</li>)
+              this.state.list.map((task, index) => <li key={index} >{task} <span onClick={() => this.didIt(index)}>"DELETE"</span></li>)
             }
           </ol>
           <form>
