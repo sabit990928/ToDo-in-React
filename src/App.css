@@ -1,0 +1,13 @@
+@import '~antd/dist/antd.css';
+
+.button {
+  margin-left: 10px;
+}
+.container {
+  padding-left: 20px;
+}
+.listStyle {
+  display: flex;
+  flex-direction: column;
+  
+}
