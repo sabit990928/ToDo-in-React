@@ -1,9 +1,9 @@
 import React from 'react';
 
 const Todo = ({
-  title, isCompleted, onCompleteButtonClick,
+  title, isCompleted, onCompleteButtonClick, id,
 }) => console.log('TodoRender: ', title) || (
-  <li>
+  <li key={id}>
     {title}
     <button onClick={onCompleteButtonClick}>
       DELETE

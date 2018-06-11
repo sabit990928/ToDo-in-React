@@ -4,21 +4,21 @@ import { Todo } from './';
 
 
 class TodoList extends PureComponent {
-  renderTodo = (task, index) => {
-    const handleCompleteButtonClick = () => this.props.onDeleteButtonClick(index);
+  renderTodo = ({ title, isGoing, id }) => {
+    const handleCompleteButtonClick = () => this.props.onDeleteButtonClick(id);
 
     return (
-      <div key={index}>
+      <div key={id}>
         <Todo
-          title={task}
-          isCompleted={false}
+          id={id}
+          title={title}
+          isCompleted={isGoing}
           onCompleteButtonClick={handleCompleteButtonClick}
         />
       </div>
     );
   }
   render() {
-    console.log('TodoList render');
     const { todos, onDeleteButtonClick } = this.props;
     if (todos.length === 0) {
       return <p>No todo added yet</p>;

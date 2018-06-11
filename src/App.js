@@ -1,28 +1,35 @@
 import React, { PureComponent } from 'react';
+import uuidv1 from 'uuid';
 
 import { TodoForm, TodoList } from './components';
 
 import './App.css';
 
 class App extends PureComponent {
-  state = { list: [] };
+  // state = { list: [] };
+  state = {
+    todos: [],
+  };
 
-  handleSubmitButtonClick = todo =>
-    this.setState({ list: [...this.state.list, todo] });
+  handleSubmitButtonClick = (todo) => {
+    const id = uuidv1();
+    const newTodo = {
+      id, title: todo, isGoing: false,
+    };
+    this.setState({ todos: [...this.state.todos, newTodo] });
+  }
 
-  didIt = index =>
-    this.setState({ list: this.state.list.filter((_, ind) => ind !== index) });
+  didIt = requestedId =>
+    this.setState({ todos: this.state.todos.filter(({ id }) => id !== requestedId) });
 
   render() {
-    console.log('App render');
     return (
       <div className="App">
-        <div id="app" />
         <div className="container">
           <h1>Todo</h1>
           <div>Add a new task</div>
           <TodoForm onSubmitButtonClick={this.handleSubmitButtonClick} />
-          <TodoList todos={this.state.list} onDeleteButtonClick={this.didIt} />
+          <TodoList todos={this.state.todos} onDeleteButtonClick={this.didIt} />
         </div>
       </div>
     );
