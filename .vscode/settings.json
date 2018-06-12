@@ -1,5 +1,6 @@
 {
   "eslint.enable": true,
   "eslint.autoFixOnSave": true,
-  "prettier.eslintIntegration": true
+  "prettier.eslintIntegration": true,
+  "git.ignoreLimitWarning": true
 }

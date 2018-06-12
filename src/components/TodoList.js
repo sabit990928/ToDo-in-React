@@ -4,8 +4,8 @@ import { Todo } from './';
 
 
 class TodoList extends PureComponent {
-  renderTodo = ({ title, isGoing, id }) => {
-    const handleCompleteButtonClick = () => this.props.onDeleteButtonClick(id);
+  renderTodo = ({ id, title, isGoing }) => {
+    const handleCompleteButtonClick = () => this.props.onDeleteButtonClick(id, title, isGoing);
 
     return (
       <div key={id}>
@@ -19,15 +19,16 @@ class TodoList extends PureComponent {
     );
   }
   render() {
-    const { todos, onDeleteButtonClick } = this.props;
+    const { todos } = this.props;
     if (todos.length === 0) {
       return <p>No todo added yet</p>;
     }
-
+    console.log(todos);
     return (
       <ol>
+        <h3>All todos</h3>
         {
-          todos.map(this.renderTodo)
+        todos.map(this.renderTodo)
         }
       </ol>
     );
