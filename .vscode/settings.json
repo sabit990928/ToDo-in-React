@@ -2,5 +2,6 @@
   "eslint.enable": true,
   "eslint.autoFixOnSave": true,
   "prettier.eslintIntegration": true,
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "editor.tabSize": 2
 }
