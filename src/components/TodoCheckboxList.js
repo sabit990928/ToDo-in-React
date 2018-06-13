@@ -1,26 +1,34 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import { func, arrayOf, string, bool, shape } from 'prop-types';
 
-// const lineThrough = styled.span`
-//   text-decoration: line-through;
-// `;
-
-const checkboxStyle = checked => ({
-  textDecoration: checked ? 'line-through' : 'none',
-});
+const LineThrough = styled.span`
+  ${({ isThrough }) => (isThrough ? 'text-decoration: line-through' : 'text-decoration: none')};
+`;
 
 class TodoCheckboxList extends PureComponent {
+  static propTypes = {
+    todos: arrayOf(shape({
+      id: string,
+      title: string,
+      isCompleted: bool,
+    })),
+    handleItemClick: func.isRequired,
+  };
+
+  static defaultProps = {
+    todos: [],
+  }
+
   renderCheckbox = (todo) => {
-    const handleItemClick = ({ target: { checked } }) => this.props.handleItemClick({ id: todo.id, checked });
+    const handleItemClick = ({ target: { checked } }) =>
+      this.props.handleItemClick({ id: todo.id, checked });
 
     return (
-      <form>
+      <div key={todo.id}>
         <input type="checkbox" name="isCompleted" checked={todo.isCompleted} onChange={handleItemClick} />
-
-        {/* <lineThrough>{todo.title}</lineThrough> */}
-        <span style={checkboxStyle(todo.isCompleted)}> {todo.title}</span>
-
-      </form>
+        <LineThrough isThrough={todo.isCompleted}>{todo.title}</LineThrough>
+      </div>
     );
   }
 

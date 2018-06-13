@@ -46,7 +46,6 @@ class App extends PureComponent {
     //   return { ...todo, isCompleted: !todo.isCompleted };
     // });
     // this.setState({ todos });
-    console.log(id, checked);
     this.setState({
       todos: this.state.todos.map(todo => (todo.id === id ? { ...todo, isCompleted: checked } : todo)),
     });
@@ -59,8 +58,8 @@ class App extends PureComponent {
           <h1>Todo</h1>
           <div>Add a new task</div>
           <TodoForm onSubmitButtonClick={this.handleSubmitButtonClick} />
-          <TodoList todos={this.state.todos} onDeleteButtonClick={this.handleCompleteButtonClick} />
-          <CompletedTodoList completedTodos={this.state.completedTodos} />
+          {/* <TodoList todos={this.state.todos} onDeleteButtonClick={this.handleCompleteButtonClick} />
+          <CompletedTodoList completedTodos={this.state.completedTodos} /> */}
           <TodoCheckboxList todos={this.state.todos} handleItemClick={this.handleItemClick} />
         </div>
       </div>
