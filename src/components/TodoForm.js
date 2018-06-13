@@ -24,6 +24,7 @@ class TodoForm extends PureComponent {
     // console.log('TodoForm render');
     return (
       <form onSubmit={this.handleSubmitButtonClick}>
+        <div>Add a new task</div>
         <br />
         <input
           type="text"
