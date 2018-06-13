@@ -1,18 +1,16 @@
 import React, { PureComponent } from 'react';
 
-import { Todo } from './';
-
 class CompletedTodoList extends PureComponent {
-    renderCompletedTodo = ({ id, title, isGoing }) => {
-      console.log(id, title);
-      return (
+    renderCompletedTodo = ({ id, title, isCompleted }) =>
+      // console.log(id, title);
+      (
         <div key={id}>
           <li key={id}>
             {title}
           </li>
         </div>
-      );
-    }
+      )
+
     render() {
       const { completedTodos } = this.props;
       if (completedTodos.length === 0) {

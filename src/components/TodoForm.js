@@ -21,7 +21,7 @@ class TodoForm extends PureComponent {
   }
 
   render() {
-    console.log('TodoForm render');
+    // console.log('TodoForm render');
     return (
       <form onSubmit={this.handleSubmitButtonClick}>
         <br />
