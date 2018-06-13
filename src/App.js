@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
 import uuidv1 from 'uuid';
 
-import { TodoForm, TodoList, CompletedTodoList, TodoCheckboxList } from './components';
+import { TodoForm, TodoList, TodoFilter } from './components';
+import TodoListUtils from './utils/TodoListUtils';
 
 import './App.css';
 
 class App extends PureComponent {
-  // state = { list: [] };
   state = {
     todos: [],
-    completedTodos: [],
+    displayTodoType: 'all',
   };
 
   handleSubmitButtonClick = (todo) => {
@@ -20,47 +20,25 @@ class App extends PureComponent {
     this.setState({ todos: [...this.state.todos, newTodo] });
   }
 
-  handleCompleteButtonClick = (requestedId, requestedTitle, requestedIsCompleted) => {
-    this.whereToSend(requestedId, requestedTitle, requestedIsCompleted);
-    const todos = this.state.todos.map((todo) => {
-      if (todo.id !== requestedId) return todo;
+  handleTodoClick = ({ id, checked }) => this.setState({
+    todos: this.state.todos.map(todo =>
+      (todo.id === id ? { ...todo, isCompleted: checked } : todo)),
+  });
 
-      return { ...todo, isCompleted: !todo.isCompleted };
-    });
-    this.setState({ todos });
-    // this.setState({ todos: this.state.todos.filter(({ id }) => id !== requestedId) });
-  }
-
-  whereToSend = (id, title, isCompleted) => {
-    const completedOne = {
-      id, title, isCompleted: !isCompleted,
-    };
-    this.setState({ completedTodos: [...this.state.completedTodos, completedOne] });
-    console.log(this.state.completedTodos);
-  }
-
-  handleItemClick = ({ id, checked }) => {
-    // const todos = this.state.todos.map((todo) => {
-    //   if (todo.id !== id) return todo;
-
-    //   return { ...todo, isCompleted: !todo.isCompleted };
-    // });
-    // this.setState({ todos });
-    this.setState({
-      todos: this.state.todos.map(todo => (todo.id === id ? { ...todo, isCompleted: checked } : todo)),
-    });
-  }
+  handleTodoTypeChange = ({ target: { name } }) => this.setState({ displayTodoType: name });
 
   render() {
+    const todos = TodoListUtils.filterTodo({
+      todos: this.state.todos,
+      todoType: this.state.displayTodoType,
+    });
     return (
       <div className="App">
         <div className="container">
           <h1>Todo</h1>
-          <div>Add a new task</div>
           <TodoForm onSubmitButtonClick={this.handleSubmitButtonClick} />
-          {/* <TodoList todos={this.state.todos} onDeleteButtonClick={this.handleCompleteButtonClick} />
-          <CompletedTodoList completedTodos={this.state.completedTodos} /> */}
-          <TodoCheckboxList todos={this.state.todos} handleItemClick={this.handleItemClick} />
+          <TodoFilter onTypeChange={this.handleTodoTypeChange} />
+          <TodoList todos={todos} onTodoClick={this.handleTodoClick} />
         </div>
       </div>
     );
