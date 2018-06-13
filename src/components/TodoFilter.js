@@ -1,11 +1,12 @@
 import React from 'react';
 import { func } from 'prop-types';
+import { Button } from 'antd';
 
 const TodoFilter = ({ onTypeChange }) => (
   <div>
-    <button name="active" onClick={onTypeChange}>Active</button>
-    <button name="completed" onClick={onTypeChange}>Completed</button>
-    <button name="all" onClick={onTypeChange}>All</button>
+    <Button type="primary" name="all" onClick={onTypeChange}>All</Button>
+    <Button name="active" onClick={onTypeChange}>Active</Button>
+    <Button name="completed" onClick={onTypeChange}>Completed</Button>
   </div>
 );
 
