@@ -1,10 +1,19 @@
 import React, { PureComponent } from 'react';
 import uuidv1 from 'uuid';
+import styled from 'styled-components';
 
 import { TodoForm, TodoList, TodoFilter } from './components';
 import TodoListUtils from './utils/TodoListUtils';
 
 import './App.css';
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+const TextStyle = styled.h1`
+  font-size: 60;
+`;
 
 class App extends PureComponent {
   state = {
@@ -33,14 +42,14 @@ class App extends PureComponent {
       todoType: this.state.displayTodoType,
     });
     return (
-      <div className="App">
+      <Container className="App">
         <div className="container">
-          <h1>Todo</h1>
+          <TextStyle>Todo</TextStyle>
           <TodoForm onSubmitButtonClick={this.handleSubmitButtonClick} />
           <TodoFilter onTypeChange={this.handleTodoTypeChange} />
           <TodoList todos={todos} onTodoClick={this.handleTodoClick} />
         </div>
-      </div>
+      </Container>
     );
   }
 }
