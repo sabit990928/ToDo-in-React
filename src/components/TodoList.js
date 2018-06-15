@@ -1,7 +1,12 @@
 import React, { PureComponent } from 'react';
 import { func, arrayOf, string, bool, shape } from 'prop-types';
+import styled from 'styled-components';
 
 import { Todo } from './';
+
+const ListWrapper = styled.div`
+  width: 80%;
+`;
 
 class TodoList extends PureComponent {
   static propTypes = {
@@ -26,9 +31,9 @@ class TodoList extends PureComponent {
   render() {
     const { todos } = this.props;
     return (
-      <div>
+      <ListWrapper>
         {todos.map(this.renderTodo)}
-      </div>
+      </ListWrapper>
     );
   }
 }
