@@ -5,6 +5,7 @@
 }
 .container {
   padding-left: 20px;
+  width: 100%;
 }
 .listStyle {
   display: flex;
