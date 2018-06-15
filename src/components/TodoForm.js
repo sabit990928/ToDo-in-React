@@ -25,7 +25,6 @@ class TodoForm extends PureComponent {
     const FormItem = Form.Item;
     return (
       <Form layout="inline" onSubmit={this.handleSubmitButtonClick}>
-        <br />
         <FormItem>
           <Input
             type="text"
