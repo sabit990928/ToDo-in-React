@@ -1,6 +1,9 @@
-import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { func } from 'prop-types';
 import { Input, Form, Button } from 'antd';
+import React, { PureComponent } from 'react';
+
+import { todoInputChanged } from '../actions';
 
 class TodoForm extends PureComponent {
   static propTypes = {
@@ -11,7 +14,10 @@ class TodoForm extends PureComponent {
     value: '',
   };
 
-  handleInputChange = ({ target: { value } }) => this.setState({ value });
+  handleInputChange = ({ target: { value } }) => {
+    console.log(value);
+    this.props.todoInputChanged(value);
+  };
 
   handleSubmitButtonClick = (e) => {
     e.preventDefault();
@@ -31,7 +37,7 @@ class TodoForm extends PureComponent {
             size="large"
             name="task"
             placeholder="I want to..."
-            value={this.state.value}
+            value={this.props.input}
             onChange={this.handleInputChange}
           />
         </FormItem>
@@ -43,4 +49,8 @@ class TodoForm extends PureComponent {
   }
 }
 
-export default TodoForm;
+const mapStateToProps = state => ({
+  input: state.todo.input,
+});
+
+export default connect(mapStateToProps, { todoInputChanged })(TodoForm);
