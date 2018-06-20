@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import uuidv1 from 'uuid';
 import styled from 'styled-components';
-import { Layout, Row } from 'antd';
+import { Layout } from 'antd';
 
+import { addTodo } from './actions';
 import { TodoForm, TodoList, TodoFilter } from './components';
 import TodoListUtils from './utils/TodoListUtils';
 
@@ -44,6 +46,8 @@ class App extends PureComponent {
       id, title: todo, isCompleted: false,
     };
     this.setState({ todos: [...this.state.todos, newTodo] });
+    this.props.addTodo(this.state.todos);
+    console.log(this.state.todos, ' ', this.props.todos, ' todos');
   }
 
   handleTodoClick = ({ id, checked }) => this.setState({
@@ -81,4 +85,8 @@ class App extends PureComponent {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  todos: state.todo,
+});
+
+export default connect(mapStateToProps, { addTodo })(App);
