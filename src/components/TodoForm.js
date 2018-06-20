@@ -1,7 +1,7 @@
-import { connect } from 'react-redux';
-import { func } from 'prop-types';
-import { Input, Form, Button } from 'antd';
 import React, { PureComponent } from 'react';
+import { Input, Form, Button } from 'antd';
+import { func } from 'prop-types';
+import { connect } from 'react-redux';
 
 import { todoInputChanged } from '../actions';
 
@@ -10,21 +10,17 @@ class TodoForm extends PureComponent {
     onSubmitButtonClick: func.isRequired,
   };
 
-  state = {
-    value: '',
-  };
-
   handleInputChange = ({ target: { value } }) => {
-    console.log(value);
     this.props.todoInputChanged(value);
   };
 
   handleSubmitButtonClick = (e) => {
     e.preventDefault();
-    if (!this.state.value) return;
+    if (!this.props.input) {
+      return;
+    }
 
-    this.props.onSubmitButtonClick(this.state.value);
-    this.setState({ value: '' });
+    this.props.onSubmitButtonClick(this.props.input);
   }
 
   render() {
