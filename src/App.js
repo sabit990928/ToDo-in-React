@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import uuidv1 from 'uuid';
 import styled from 'styled-components';
 import { Layout } from 'antd';
 
@@ -39,15 +38,13 @@ class App extends PureComponent {
     todos: [],
     displayTodoType: 'all',
   };
+  componentDidMount() {
+    this.props.addTodo();
+  }
 
   handleSubmitButtonClick = (todo) => {
-    const id = uuidv1();
-    const newTodo = {
-      id, title: todo, isCompleted: false,
-    };
-    this.setState({ todos: [...this.state.todos, newTodo] });
-    this.props.addTodo(this.state.todos);
-    console.log(this.state.todos, ' ', this.props.todos, ' todos');
+    this.props.addTodo(todo);
+    console.log(this.props.todos, ' todos');
   }
 
   handleTodoClick = ({ id, checked }) => this.setState({
@@ -74,7 +71,7 @@ class App extends PureComponent {
               currentFilter={this.state.displayTodoType}
               onTypeChange={this.handleTodoTypeChange}
             /><br />
-            <TodoList todos={todos} onTodoClick={this.handleTodoClick} />
+            <TodoList todos={this.state.todos} onTodoClick={this.handleTodoClick} />
           </StyledContent>
 
           <StyledFooter><hr />Footer</StyledFooter>
@@ -86,7 +83,8 @@ class App extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  todos: state.todo,
+  todos: state.todos,
+  todo: state.todo,
 });
 
 export default connect(mapStateToProps, { addTodo })(App);
