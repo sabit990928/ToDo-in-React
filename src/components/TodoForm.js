@@ -3,7 +3,7 @@ import { Input, Form, Button } from 'antd';
 import { func } from 'prop-types';
 import { connect } from 'react-redux';
 
-import { todoInputChanged } from '../actions';
+import { todoInputChanged, todoInputClean } from '../actions';
 
 class TodoForm extends PureComponent {
   static propTypes = {
@@ -21,6 +21,7 @@ class TodoForm extends PureComponent {
     }
 
     this.props.onSubmitButtonClick(this.props.input);
+    this.props.todoInputClean(this.props.input);
   }
 
   render() {
@@ -49,4 +50,4 @@ const mapStateToProps = state => ({
   input: state.todo.input,
 });
 
-export default connect(mapStateToProps, { todoInputChanged })(TodoForm);
+export default connect(mapStateToProps, { todoInputChanged, todoInputClean })(TodoForm);
