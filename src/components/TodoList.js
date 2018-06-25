@@ -30,7 +30,6 @@ class TodoList extends PureComponent {
 
   render() {
     const { todos } = this.props;
-    // console.log(todos, 'todoss');
     return (
       <ListWrapper>
         {todos.map(this.renderTodo)}

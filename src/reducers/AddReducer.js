@@ -10,7 +10,7 @@ export default (state = [], action) => {
       ];
       /* eslint-disable  no-case-declarations */
     case TOGGLE_TODO:
-      console.log(state, action);
+      // console.log(state, action);
       const newState = state.map(todo =>
         (todo.id === action.id ? { ...todo, isCompleted: action.isCompleted } : todo));
       return newState;
