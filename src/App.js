@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Layout } from 'antd';
 
-import { addTodo } from './actions';
+import { addTodo, toggleTodo } from './actions';
 import { TodoForm, TodoList, TodoFilter } from './components';
 import TodoListUtils from './utils/TodoListUtils';
 
@@ -38,20 +38,23 @@ class App extends PureComponent {
     todos: [],
     displayTodoType: 'all',
   };
-  componentDidMount() {
-    this.props.addTodo();
-  }
+  // componentDidMount() {
+  //   this.props.addTodo();
+  // }
 
   handleSubmitButtonClick = (todo) => {
     this.props.addTodo(todo);
-    console.log(this.props.todos, ' todos');
+    // console.log(this.props.todos, ' todos');
   }
 
-  handleTodoClick = ({ id, checked }) => this.setState({
-    todos: this.state.todos.map(todo =>
-      (todo.id === id ? { ...todo, isCompleted: checked } : todo)),
-  });
-
+  handleTodoClick = ({ id, checked }) => {
+    console.log(checked, 'todoss');
+    this.props.toggleTodo({ id, isCompleted: checked });
+    // this.setState({
+    //   todos: this.props.todos.map(todo =>
+    //     (todo.id === id ? { ...todo, isCompleted: checked } : todo)),
+    // });
+  }
   handleTodoTypeChange = ({ target: { name } }) => this.setState({ displayTodoType: name });
 
   render() {
@@ -71,7 +74,7 @@ class App extends PureComponent {
               currentFilter={this.state.displayTodoType}
               onTypeChange={this.handleTodoTypeChange}
             /><br />
-            <TodoList todos={this.state.todos} onTodoClick={this.handleTodoClick} />
+            <TodoList todos={this.props.todos} onTodoClick={this.handleTodoClick} />
           </StyledContent>
 
           <StyledFooter><hr />Footer</StyledFooter>
@@ -87,4 +90,4 @@ const mapStateToProps = state => ({
   todo: state.todo,
 });
 
-export default connect(mapStateToProps, { addTodo })(App);
+export default connect(mapStateToProps, { addTodo, toggleTodo })(App);

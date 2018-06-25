@@ -1,6 +1,6 @@
 import uuidv1 from 'uuid';
 
-import { TODO_INPUT_CHANGED, ADD_TODO, TODO_INPUT_CLEAN } from './types';
+import { TODO_INPUT_CHANGED, ADD_TODO, TODO_INPUT_CLEAN, TOGGLE_TODO } from './types';
 
 export const todoInputChanged = text => ({
   type: TODO_INPUT_CHANGED,
@@ -18,3 +18,11 @@ export const addTodo = todo => ({
   todo,
   isCompleted: false,
 });
+
+export const toggleTodo = ({ id, isCompleted }) => (
+  {
+    type: TOGGLE_TODO,
+    id,
+    isCompleted,
+  }
+);
