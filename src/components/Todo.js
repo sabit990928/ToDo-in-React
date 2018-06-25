@@ -9,9 +9,9 @@ const StyledList = styled(List)`
   width: 100%;
 `;
 const Todo = ({ todo: { id, isCompleted, title }, onClick }) => {
+  // console.log('todoss');
   const handleItemClick = ({ target: { checked } }) =>
     onClick({ id, checked });
-
   return (
     <StyledList
       key={id}
