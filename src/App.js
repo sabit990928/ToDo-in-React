@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Layout } from 'antd';
 
-import { addTodo, toggleTodo } from './actions';
+import { addTodo, toggleTodo, todoType } from './actions';
 import { TodoForm, TodoList, TodoFilter } from './components';
 import TodoListUtils from './utils/TodoListUtils';
 
@@ -34,60 +34,51 @@ const StyledFooter = styled(Footer)`
 `;
 
 class App extends PureComponent {
-  state = {
-    todos: [],
-    displayTodoType: 'all',
-  };
   // componentDidMount() {
-  //   this.props.addTodo();
-  // }
+    //   this.props.addTodo();
+    // }
 
-  handleSubmitButtonClick = (todo) => {
-    this.props.addTodo(todo);
-    // console.log(this.props.todos, ' todos');
-  }
+    handleSubmitButtonClick = (todo) => {
+      this.props.addTodo(todo);
+    }
 
-  handleTodoClick = ({ id, checked }) => {
-    console.log(checked, 'todoss');
-    this.props.toggleTodo({ id, isCompleted: checked });
-    // this.setState({
-    //   todos: this.props.todos.map(todo =>
-    //     (todo.id === id ? { ...todo, isCompleted: checked } : todo)),
-    // });
-  }
-  handleTodoTypeChange = ({ target: { name } }) => this.setState({ displayTodoType: name });
+    handleTodoClick = ({ id, checked }) => {
+      this.props.toggleTodo({ id, isCompleted: checked });
+    }
+    handleTodoTypeChange = ({ target: { name } }) => this.props.todoType(name);
 
-  render() {
-    const todos = TodoListUtils.filterTodo({
-      todos: this.state.todos,
-      todoType: this.state.displayTodoType,
-    });
-    return (
-      <div className="App">
-        <StyledLayout>
-          <Header><StyledHeaderText>Todo</StyledHeaderText></Header>
-          <br />
-          <StyledContent>
-            <TodoForm onSubmitButtonClick={this.handleSubmitButtonClick} />
+    render() {
+      const todos = TodoListUtils.filterTodo({
+        todos: this.props.todos,
+        todoType: this.props.typeTodo.type,
+      });
+      return (
+        <div className="App">
+          <StyledLayout>
+            <Header><StyledHeaderText>Todo</StyledHeaderText></Header>
             <br />
-            <TodoFilter
-              currentFilter={this.state.displayTodoType}
-              onTypeChange={this.handleTodoTypeChange}
-            /><br />
-            <TodoList todos={this.props.todos} onTodoClick={this.handleTodoClick} />
-          </StyledContent>
+            <StyledContent>
+              <TodoForm onSubmitButtonClick={this.handleSubmitButtonClick} />
+              <br />
+              <TodoFilter
+                currentFilter={this.props.typeTodo.type}
+                onTypeChange={this.handleTodoTypeChange}
+              /><br />
+              <TodoList todos={todos} onTodoClick={this.handleTodoClick} />
+            </StyledContent>
 
-          <StyledFooter><hr />Footer</StyledFooter>
+            <StyledFooter><hr />Footer</StyledFooter>
 
-        </StyledLayout>
-      </div>
-    );
-  }
+          </StyledLayout>
+        </div>
+      );
+    }
 }
 
 const mapStateToProps = state => ({
   todos: state.todos,
   todo: state.todo,
+  typeTodo: state.typeTodo,
 });
 
-export default connect(mapStateToProps, { addTodo, toggleTodo })(App);
+export default connect(mapStateToProps, { addTodo, toggleTodo, todoType })(App);
