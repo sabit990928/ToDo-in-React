@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Layout, Form, Icon, Input, Button } from 'antd';
+import { loginUser } from '../actions';
 
 import '../App.css';
 
@@ -33,8 +36,26 @@ const StyledFooter = styled(Footer)`
 class LoginPage extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
+
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log(values);
+        this.props.loginUser({ email: values.email, password: values.password });
+      }
+    });
   };
+
+  renderError() {
+    if (this.props.error) {
+      return (
+        <div>
+          {this.props.error}
+        </div>
+      );
+    }
+  }
   render() {
+    const { getFieldDecorator } = this.props.form;
     return (
       <div className="App">
         <StyledLayout>
@@ -43,21 +64,26 @@ class LoginPage extends Component {
           <StyledContent>
             <Form onSubmit={this.handleSubmit} className="login-form">
               <FormItem>
-                {(<Input
-                  prefix={
-                    <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
+                {getFieldDecorator('email', {
+            rules: [{ required: true, message: 'Please input your email!' }],
+          })(<Input
+                  // onPressEnter={this.handleEmailChange}
+            prefix={
+              <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
                   }
-                  placeholder="Username"
-                />)}
+            placeholder="Username"
+          />)}
               </FormItem>
               <FormItem>
-                {(<Input
-                  prefix={
-                    <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+                {getFieldDecorator('password', {
+            rules: [{ required: true, message: 'Please input your password!' }],
+          })(<Input
+            prefix={
+              <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
                   }
-                  type="password"
-                  placeholder="Password"
-                />)}
+            type="password"
+            placeholder="Password"
+          />)}
               </FormItem>
               <FormItem>
                 <Button
@@ -80,4 +106,16 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+LoginPage.propTypes = {
+  form: PropTypes.shape({
+    validateFields: PropTypes.func,
+  }).isRequired,
+};
+
+const mapStateToProps = state => ({
+  error: state.auth.error,
+});
+
+const WrappedLoginForm = Form.create()(LoginPage);
+
+export default connect(mapStateToProps, { loginUser })(WrappedLoginForm);
