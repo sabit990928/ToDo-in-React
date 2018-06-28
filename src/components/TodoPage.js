@@ -2,10 +2,9 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Layout } from 'antd';
-import firebase from 'firebase';
 
 import { addTodo, toggleTodo, todoType } from '../actions';
-import { TodoForm, TodoList, TodoFilter, LoginPage } from '../components';
+import { TodoForm, TodoList, TodoFilter } from '../components';
 import TodoListUtils from '../utils/TodoListUtils';
 
 import '../App.css';
@@ -34,19 +33,7 @@ const StyledFooter = styled(Footer)`
   height: ${FOOTER_HEIGHT}px;
 `;
 
-class App extends PureComponent {
-  componentDidMount() {
-    const config = {
-      apiKey: 'AIzaSyBgMfv3tRQcTpePtjFQ5rPwKZFlDwKqhNE',
-      authDomain: 'manager-839e6.firebaseapp.com',
-      databaseURL: 'https://manager-839e6.firebaseio.com',
-      projectId: 'manager-839e6',
-      storageBucket: 'manager-839e6.appspot.com',
-      messagingSenderId: '875856489748',
-    };
-    firebase.initializeApp(config);
-  }
-
+class TodoPage extends PureComponent {
     handleSubmitButtonClick = (todo) => {
       this.props.addTodo(todo);
     }
@@ -69,6 +56,7 @@ class App extends PureComponent {
             <StyledContent>
               <TodoForm onSubmitButtonClick={this.handleSubmitButtonClick} />
               <br />
+
               <TodoFilter
                 currentFilter={this.props.typeTodo.type}
                 onTypeChange={this.handleTodoTypeChange}
@@ -90,4 +78,4 @@ const mapStateToProps = state => ({
   typeTodo: state.typeTodo,
 });
 
-export default connect(mapStateToProps, { addTodo, toggleTodo, todoType })(App);
+export default connect(mapStateToProps, { addTodo, toggleTodo, todoType })(TodoPage);
