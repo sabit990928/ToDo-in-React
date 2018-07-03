@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
-import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
-import firebase from 'firebase';
+import { connect } from 'react-redux';
+import { Route, Switch, BrowserRouter, Redirect, PropsRoute } from 'react-router-dom';
+import firebase, { auth } from 'firebase';
 
-import { LoginPage, TodoPage } from './components';
+import { LoginPage, TodoPage, HomePage, RegisterPage } from './pages';
 
 import './App.css';
 
@@ -13,6 +14,9 @@ const appRoutes = [
     render: props => <TodoPage {...props} />,
   },
 ];
+
+// const { isUserAuth } = this.props;
+// console.log(this.props.isUserAuth);
 
 const PrivateRoute = ({ component: Component, isUserAuth, ...rest }) => (
   <Route
@@ -33,6 +37,8 @@ const AuthRoute = ({ component: Component, isUserAuth, ...rest }) => (
 );
 
 class App extends PureComponent {
+  state = { isUserAuth: false };
+
   componentDidMount() {
     const config = {
       apiKey: 'AIzaSyCqmfoHGRfPV0oJjQ7qWv5ZVm99PDjOBbA',
@@ -44,17 +50,30 @@ class App extends PureComponent {
     };
     firebase.initializeApp(config);
   }
+
+
   render() {
     return (
       <div className="App">
         <BrowserRouter>
           <Switch>
-            <Route path="/" exact component={() => <div>Home Page</div>} />
-            <AuthRoute path="/login" exact component={LoginPage} isUserAuth />
-            <AuthRoute path="/register" exact component={() => <div>Sign up Page</div>} isUserAuth />
+            <Route path="/" exact component={HomePage} />
+            {/* <PropsRoute /> */}
+            <AuthRoute
+              path="/login"
+              exact
+              component={LoginPage}
+              isUserAuth={this.state.isUserAuth}
+            />
+            <AuthRoute
+              path="/register"
+              exact
+              component={RegisterPage}
+              isUserAuth={this.state.isUserAuth}
+            />
             {appRoutes.map(route => (
               <PrivateRoute
-                isUserAuth
+                isUserAuth={this.state.isUserAuth}
                 exact
                 key={route.path}
                 path={route.path}
@@ -68,4 +87,9 @@ class App extends PureComponent {
   }
 }
 
+// const mapStateToProps = state => ({
+//   isUserAuth: this.state.auth.isUserAuth,
+// });
+
 export default App;
+// export default connect(mapStateToProps, null)(App);
