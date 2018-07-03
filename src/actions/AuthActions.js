@@ -10,10 +10,11 @@ const loginUserFail = (dispatch) => {
   dispatch({ type: LOGIN_USER_FAIL });
 };
 
+
 export const loginUser = ({ email, password }) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_USER });
-    console.log(email, password);
+    // console.log(email, password);
     const user = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
@@ -21,6 +22,7 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
   } catch (signInError) {
     console.error('signInError: ', signInError);
     return loginUserFail(dispatch);
+
     // try {
     //   const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
     //   loginUserSuccess(dispatch, user);
