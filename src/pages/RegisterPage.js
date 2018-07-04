@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Layout, Form, Icon, Input, Button } from 'antd';
-import { loginUser } from '../actions';
+import { signUpUser } from '../actions';
 
 const FormItem = Form.Item;
 
@@ -38,7 +39,9 @@ class RegisterPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log(values);
-        this.props.loginUser({ email: values.email, password: values.password });
+        this.props.signUpUser({
+          email: values.email, password: values.password, passwordAgain: values.passwordRepeat,
+        });
       }
     });
   };
@@ -95,13 +98,15 @@ class RegisterPage extends Component {
           />)}
               </FormItem>
               <FormItem>
+                {/* <Link to="/"> */}
                 <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="login-form-button"
-                >
+                    type="primary"
+                    htmlType="submit"
+                    className="login-form-button"
+                  >
                 Create user
-                </Button>
+                  </Button>
+                {/* </Link> */}
               </FormItem>
             </Form>
           </StyledContent>
@@ -126,4 +131,4 @@ const mapStateToProps = state => ({
 
 const WrappedLoginForm = Form.create()(RegisterPage);
 
-export default connect(mapStateToProps, { loginUser })(WrappedLoginForm);
+export default connect(mapStateToProps, { signUpUser })(WrappedLoginForm);
