@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, BrowserRouter, Redirect, PropsRoute } from 'react-router-dom';
-import firebase, { auth } from 'firebase';
+import { Route, Switch, BrowserRouter, Redirect, RouteProps, withRouter } from 'react-router-dom';
+import firebase from 'firebase';
 
 import { LoginPage, TodoPage, HomePage, RegisterPage } from './pages';
 
@@ -49,16 +49,21 @@ class App extends PureComponent {
       messagingSenderId: '336941408236',
     };
     firebase.initializeApp(config);
+    firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
   }
 
+  handleAuthStateChange = (user) => {
+    console.log(user.email);
+    this.setState({ isUserAuth: !!user });
+  }
 
   render() {
     return (
       <div className="App">
         <BrowserRouter>
           <Switch>
-            <Route path="/" exact component={HomePage} />
-            {/* <PropsRoute /> */}
+            <Route path="/" exact component={HomePage} isUserAuth={this.state.isUserAuth} />
+            {/* <RouteProps /> */}
             <AuthRoute
               path="/login"
               exact
@@ -88,7 +93,7 @@ class App extends PureComponent {
 }
 
 // const mapStateToProps = state => ({
-//   isUserAuth: this.state.auth.isUserAuth,
+//   isUserAuth: state.auth.isUserAuth,
 // });
 
 export default App;
