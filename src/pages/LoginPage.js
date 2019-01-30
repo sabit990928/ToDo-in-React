@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { Route } from 'react-router-dom';
 import { Layout, Form, Icon, Input, Button } from 'antd';
+import { connect } from 'react-redux';
+
 import { loginUser } from '../actions';
 
 const FormItem = Form.Item;
@@ -90,6 +91,7 @@ class LoginPage extends Component {
                   type="primary"
                   htmlType="submit"
                   className="login-form-button"
+
                 >
                 Login
                 </Button>
